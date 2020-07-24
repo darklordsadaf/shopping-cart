@@ -30,7 +30,7 @@
                            <button id="plusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
                         <h5>$ <span id="mobilePrice">1219</span></h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <img src="images/remove.png" alt="" id="resetMobile" class="remove-item">
                      </div>
                   </div>
                </div>
@@ -49,7 +49,7 @@
 
                         </div>
                         <h5>$ <span id="coverPrice">59</span></h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <img src="images/remove.png" alt="" id="resetCover" class="remove-item">
                      </div>
                   </div>
                </div>
@@ -65,7 +65,7 @@
 
                      <div class="col-md-4 status">
                         <h5>$ <span id="subTotal">1278</span></h5>
-                        <h5>$0</h5>
+                        <h5>$ <span>0</span></h5>
                         <h5>$ <span id="total">1278</span></h5>
                      </div>
                   </div>
@@ -81,8 +81,26 @@
 
    <script>
 
+      // reset mobile event handler
+      const resetMobile = document.getElementById("resetMobile");
+      resetMobile.addEventListener("click", function(){
+         
+         resetBtn ("inputMobile", "mobilePrice");
 
-      //plus button event handler
+      })
+
+
+      //reset cover event handler
+      const resetCover = document.getElementById("resetCover");
+      resetCover.addEventListener("click", function(){
+         
+         resetBtn ("inputCover", "coverPrice");
+
+      })
+
+
+
+      //plus mobile button event handler
       const plusBtn = document.getElementById("plusBtn");
       plusBtn.addEventListener("click", function(){
          
@@ -96,7 +114,8 @@
         
       })
    
-      //minus button event handler
+
+      //minus mobile button event handler
       const minusBtn = document.getElementById("minusBtn");
       minusBtn.addEventListener("click", function(){
 
@@ -108,6 +127,7 @@
 
          getPrice("total", -1219);
       })
+
 
       //plus cover button event handler
       const addCover = document.getElementById("addCover");
@@ -136,6 +156,20 @@
          getPrice("total", -59);
       })
 
+
+      function resetBtn (id1, id2){
+         const mPrice = document.getElementById(id2).innerText;
+         const mPriceValue = parseInt(mPrice);
+         const subTotal = document.getElementById("subTotal").innerText;
+         const subTotalValue = parseInt(subTotal);
+         const removeTotal = subTotalValue - mPriceValue;
+         document.getElementById("subTotal").innerText = removeTotal;
+         document.getElementById("total").innerText = removeTotal;
+
+         const reset = 0;
+         document.getElementById(id1).value = reset;
+         document.getElementById(id2).innerText = reset;
+      }
 
       function getPrice(id, value){
          const price = document.getElementById(id).innerText;
