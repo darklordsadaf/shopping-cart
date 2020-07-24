@@ -25,9 +25,9 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button id="minusBtn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <button id="removeMobile" class="btn btn-default"><i class="fas fa-minus"></i></button>
                            <input type="text" id="inputMobile" class="form-control text-center" value="1">
-                           <button id="plusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="addMobile" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
                         <h5>$ <span id="mobilePrice">1219</span></h5>
                         <img src="images/remove.png" alt="" id="resetMobile" class="remove-item">
@@ -65,8 +65,8 @@
 
                      <div class="col-md-4 status">
                         <h5>$ <span id="subTotal">1278</span></h5>
-                        <h5>$ <span>0</span></h5>
-                        <h5>$ <span id="total">1278</span></h5>
+                        <h5>$ <span id="tax">26</span></h5>
+                        <h5>$ <span id="total">1304</span></h5>
                      </div>
                   </div>
                </div>
@@ -80,13 +80,14 @@
 
 
    <script>
-
       // reset mobile event handler
       const resetMobile = document.getElementById("resetMobile");
       resetMobile.addEventListener("click", function(){
-         
-         resetBtn ("inputMobile", "mobilePrice");
 
+         resetBtn ("inputMobile", "mobilePrice", 24);
+         
+         disableButton("inputMobile", "removeMobile");
+         
       })
 
 
@@ -94,15 +95,16 @@
       const resetCover = document.getElementById("resetCover");
       resetCover.addEventListener("click", function(){
          
-         resetBtn ("inputCover", "coverPrice");
+         resetBtn ("inputCover", "coverPrice", 2);
 
+         disableButton("inputCover", "removeCover");
       })
 
 
 
       //plus mobile button event handler
-      const plusBtn = document.getElementById("plusBtn");
-      plusBtn.addEventListener("click", function(){
+      const addMobile = document.getElementById("addMobile");
+      addMobile.addEventListener("click", function(){
          
          getInputNumber("inputMobile", 1);
 
@@ -110,22 +112,30 @@
 
          getPrice("subTotal", 1219);
 
-         getPrice("total", 1219);
+         getPrice("tax", 24);
+
+         getPrice("total", 1243);
         
+         enableButton("removeMobile");
       })
    
 
       //minus mobile button event handler
-      const minusBtn = document.getElementById("minusBtn");
-      minusBtn.addEventListener("click", function(){
+      const removeMobile = document.getElementById("removeMobile");
+      removeMobile.addEventListener("click", function(){
 
          getInputNumber("inputMobile", -1);
 
          getPrice("mobilePrice", -1219);
 
          getPrice("subTotal", -1219);
+         
+         getPrice("tax", -24);
 
-         getPrice("total", -1219);
+         getPrice("total", -1243);
+
+         disableButton("inputMobile", "removeMobile");
+         
       })
 
 
@@ -138,8 +148,12 @@
          getPrice("coverPrice", 59);
 
          getPrice("subTotal", 59);
+         
+         getPrice("tax", 2);
 
-         getPrice("total", 59);
+         getPrice("total", 61);
+
+         enableButton("removeCover");
       })
 
 
@@ -153,17 +167,48 @@
 
          getPrice("subTotal", -59);
 
-         getPrice("total", -59);
+         getPrice("tax", -2);
+
+         getPrice("total", -61);
+
+         disableButton("inputCover", "removeCover");
+         
       })
 
 
-      function resetBtn (id1, id2){
-         const mPrice = document.getElementById(id2).innerText;
-         const mPriceValue = parseInt(mPrice);
+      function enableButton(id){
+         document.getElementById(id).disabled = false;
+      }
+
+      function disableButton(input, id){
+         const disable = document.getElementById(input).value;
+         if(disable < 1){
+            document.getElementById(id).disabled = true;
+         }
+      }
+
+      function resetBtn (id1, id2 , value){   
+         const inputProduct = document.getElementById(id1).value;
+         const inputProductValue = parseInt(inputProduct);
+         const productPrice = document.getElementById(id2).innerText;
+         const productPriceValue = parseFloat(productPrice);
          const subTotal = document.getElementById("subTotal").innerText;
-         const subTotalValue = parseInt(subTotal);
-         const removeTotal = subTotalValue - mPriceValue;
-         document.getElementById("subTotal").innerText = removeTotal;
+         const subTotalValue = parseFloat(subTotal);
+
+
+         const removeSubTotal = subTotalValue - productPriceValue;
+         document.getElementById("subTotal").innerText = removeSubTotal;
+
+         const tax = document.getElementById("tax").innerText;
+         const taxValue = parseFloat(tax);
+         const currentVat = value * inputProductValue;
+         const removeTax = taxValue - currentVat;
+         document.getElementById("tax").innerText = removeTax;
+
+         const total = document.getElementById("total").innerText;
+         const totalValue = parseFloat(total);
+         const currentTotal = currentVat + productPriceValue;
+         const removeTotal = totalValue - currentTotal;
          document.getElementById("total").innerText = removeTotal;
 
          const reset = 0;
@@ -173,7 +218,7 @@
 
       function getPrice(id, value){
          const price = document.getElementById(id).innerText;
-         const priceValue = parseInt(price);
+         const priceValue = parseFloat(price);
          const perItemPrice = value ;
          const addPrice = priceValue + perItemPrice;
          document.getElementById(id).innerText = addPrice;
@@ -181,7 +226,7 @@
 
       function getInputNumber(id, value){
          const inputItem= document.getElementById(id).value;
-         const inputItemNumber = parseInt(inputItem);
+         const inputItemNumber = parseFloat(inputItem);
          const addItemNumber =  inputItemNumber + value;
          document.getElementById(id).value = addItemNumber;
       }
