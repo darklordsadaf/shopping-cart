@@ -65,8 +65,8 @@
 
                      <div class="col-md-4 status">
                         <h5>$ <span id="subTotal">1278</span></h5>
-                        <h5>$ <span id="tax">26</span></h5>
-                        <h5>$ <span id="total">1304</span></h5>
+                        <h5>$ <span id="tax">25.56</span></h5>
+                        <h5>$ <span id="total">1303.56</span></h5>
                      </div>
                   </div>
                </div>
@@ -84,7 +84,7 @@
       const resetMobile = document.getElementById("resetMobile");
       resetMobile.addEventListener("click", function(){
 
-         resetBtn ("inputMobile", "mobilePrice", 24);
+         resetBtn ("inputMobile", "mobilePrice", 24.38);
          
          disableButton("inputMobile", "removeMobile");
          
@@ -95,7 +95,7 @@
       const resetCover = document.getElementById("resetCover");
       resetCover.addEventListener("click", function(){
          
-         resetBtn ("inputCover", "coverPrice", 2);
+         resetBtn ("inputCover", "coverPrice", 1.18);
 
          disableButton("inputCover", "removeCover");
       })
@@ -112,9 +112,9 @@
 
          getPrice("subTotal", 1219);
 
-         getPrice("tax", 24);
+         getPriceFloat("tax", 24.38);
 
-         getPrice("total", 1243);
+         getPriceFloat("total", 1243.38);
         
          enableButton("removeMobile");
       })
@@ -130,9 +130,9 @@
 
          getPrice("subTotal", -1219);
          
-         getPrice("tax", -24);
+         getPriceFloat("tax", -24.38);
 
-         getPrice("total", -1243);
+         getPriceFloat("total", -1243.38);
 
          disableButton("inputMobile", "removeMobile");
          
@@ -149,9 +149,9 @@
 
          getPrice("subTotal", 59);
          
-         getPrice("tax", 2);
+         getPriceFloat("tax", 1.18);
 
-         getPrice("total", 61);
+         getPriceFloat("total", 60.18);
 
          enableButton("removeCover");
       })
@@ -167,9 +167,9 @@
 
          getPrice("subTotal", -59);
 
-         getPrice("tax", -2);
+         getPriceFloat("tax", -1.18);
 
-         getPrice("total", -61);
+         getPriceFloat("total", -60.18);
 
          disableButton("inputCover", "removeCover");
          
@@ -203,13 +203,15 @@
          const taxValue = parseFloat(tax);
          const currentVat = value * inputProductValue;
          const removeTax = taxValue - currentVat;
-         document.getElementById("tax").innerText = removeTax;
+         const taxFloat = removeTax.toFixed(2);
+         document.getElementById("tax").innerText = taxFloat;
 
          const total = document.getElementById("total").innerText;
          const totalValue = parseFloat(total);
          const currentTotal = currentVat + productPriceValue;
          const removeTotal = totalValue - currentTotal;
-         document.getElementById("total").innerText = removeTotal;
+         const totalFloat = removeTotal.toFixed(2);
+         document.getElementById("total").innerText = totalFloat;
 
          const reset = 0;
          document.getElementById(id1).value = reset;
@@ -222,6 +224,15 @@
          const perItemPrice = value ;
          const addPrice = priceValue + perItemPrice;
          document.getElementById(id).innerText = addPrice;
+      }
+
+      function getPriceFloat(id, value){
+         const priceFloat = document.getElementById(id).innerText;
+         const priceFloatValue = parseFloat(priceFloat);
+         const perItemFloatPrice = value ;
+         const addFloatPrice = priceFloatValue + perItemFloatPrice;
+         const addPriceFloat = addFloatPrice.toFixed(2);
+         document.getElementById(id).innerText = addPriceFloat;
       }
 
       function getInputNumber(id, value){
