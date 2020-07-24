@@ -80,7 +80,6 @@
 
 
    <script>
-
       // reset mobile event handler
       const resetMobile = document.getElementById("resetMobile");
       resetMobile.addEventListener("click", function(){
@@ -158,11 +157,11 @@
 
 
       function resetBtn (id1, id2){
-         const mPrice = document.getElementById(id2).innerText;
-         const mPriceValue = parseInt(mPrice);
+         const productPrice = document.getElementById(id2).innerText;
+         const productPriceValue = parseInt(productPrice);
          const subTotal = document.getElementById("subTotal").innerText;
          const subTotalValue = parseInt(subTotal);
-         const removeTotal = subTotalValue - mPriceValue;
+         const removeTotal = subTotalValue - productPriceValue;
          document.getElementById("subTotal").innerText = removeTotal;
          document.getElementById("total").innerText = removeTotal;
 
