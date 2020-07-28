@@ -16,7 +16,8 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
-               <div class="cart-item">
+
+               <div id="mobile-area" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -35,7 +36,7 @@
                   </div>
                </div>
 
-               <div class="cart-item">
+               <div id="cover-area" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -83,10 +84,9 @@
       // reset mobile event handler
       const resetMobile = document.getElementById("resetMobile");
       resetMobile.addEventListener("click", function(){
-
          resetBtn ("inputMobile", "mobilePrice", 24.38);
-         
-         disableButton("inputMobile", "removeMobile");
+
+         displayHide("mobile-area");
          
       })
 
@@ -96,8 +96,9 @@
       resetCover.addEventListener("click", function(){
          
          resetBtn ("inputCover", "coverPrice", 1.18);
+         
+         displayHide("cover-area");
 
-         disableButton("inputCover", "removeCover");
       })
 
 
@@ -175,6 +176,10 @@
          
       })
 
+      function displayHide(id){
+         const area = document.getElementById(id);
+         area.style.display= "none";
+      }
 
       function enableButton(id){
          document.getElementById(id).disabled = false;
@@ -213,9 +218,6 @@
          const totalFloat = removeTotal.toFixed(2);
          document.getElementById("total").innerText = totalFloat;
 
-         const reset = 0;
-         document.getElementById(id1).value = reset;
-         document.getElementById(id2).innerText = reset;
       }
 
       function getPrice(id, value){
